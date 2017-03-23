@@ -25,6 +25,10 @@ namespace CGaG_Lab04 {
             Keyboard.Key.Num4,
             Keyboard.Key.Num5,
         };
+        static Pen Pen1 = new Pen(Color.Red);
+        static Pen Pen2 = new Pen(Color.Green);
+        static Pen Pen3 = new Pen(Color.Red, 3, Pen.LineStyle.Dash_Dot);
+        static Pen Pen4 = new Pen(Color.Red, 2);
 
         static void Main(string[ ] args) {
 
@@ -51,24 +55,24 @@ namespace CGaG_Lab04 {
                     case 0:
                         break;
                     case 1:
-                        LabsUtils.DrawFunction(Win, LabsUtils.F1, new FloatRect(-Pi3, -Pi3, Pi6, Pi6), new IntRect(0, 0, (int)Win.Size.X, (int)Win.Size.Y), Color.Red, 1);
+                        LabsUtils.DrawFunction(Win, LabsUtils.F1, new FloatRect(-Pi3, -Pi3, Pi6, Pi6), new IntRect(0, 0, (int)Win.Size.X, (int)Win.Size.Y), Pen1);
                         break;
                     case 2:
-                        LabsUtils.DrawFunction(Win, LabsUtils.F2, new FloatRect(-5, -5, 10, 10), new IntRect(0, 0, (int)Win.Size.X, (int)Win.Size.Y), Color.Green, 1);
+                        LabsUtils.DrawFunction(Win, LabsUtils.F2, new FloatRect(-5, -5, 10, 10), new IntRect(0, 0, (int)Win.Size.X, (int)Win.Size.Y), Pen2);
                         break;
                     case 3:
-                        LabsUtils.DrawFunction(Win, LabsUtils.F3, new FloatRect(0, -Pi3, Pi6, Pi6), new IntRect(0, 0, (int)Win.Size.X, (int)Win.Size.Y), Color.Red, 3, LabsUtils.LineStyle.Dash_Dot);
+                        LabsUtils.DrawFunction(Win, LabsUtils.F3, new FloatRect(0, -Pi3, Pi6, Pi6), new IntRect(0, 0, (int)Win.Size.X, (int)Win.Size.Y), Pen3);
                         break;
                     case 4:
-                        LabsUtils.DrawFunction(Win, LabsUtils.F4, new FloatRect(-10, -2, 20, 18), new IntRect(0, 0, (int)Win.Size.X, (int)Win.Size.Y), Color.Red, 2);
+                        LabsUtils.DrawFunction(Win, LabsUtils.F4, new FloatRect(-10, -2, 20, 18), new IntRect(0, 0, (int)Win.Size.X, (int)Win.Size.Y), Pen4);
                         break;
                     case 5:
                         int w7 = (int)Win.Size.X / 7;
                         int h7 = (int)Win.Size.Y / 7;
-                        LabsUtils.DrawFunction(Win, LabsUtils.F1, new FloatRect(-Pi3, -Pi3, Pi6, Pi6), new IntRect(w7, h7, 2 * w7, 2 * h7), Color.Red, 1);
-                        LabsUtils.DrawFunction(Win, LabsUtils.F2, new FloatRect(-5, -5, 10, 10), new IntRect(4 * w7, h7, 2 * w7, 2 * h7), Color.Green, 1);
-                        LabsUtils.DrawFunction(Win, LabsUtils.F3, new FloatRect(0, -Pi3, Pi6, Pi6), new IntRect(w7, 4 * h7, 2 * w7, 2 * h7), Color.Red, 3, LabsUtils.LineStyle.Dash_Dot);
-                        LabsUtils.DrawFunction(Win, LabsUtils.F4, new FloatRect(-10, -2, 20, 18), new IntRect(4 * w7, 4 * h7, 2 * w7, 2 * h7), Color.Red, 2);
+                        LabsUtils.DrawFunction(Win, LabsUtils.F1, new FloatRect(-Pi3, -Pi3, Pi6, Pi6), new IntRect(w7, h7, 2 * w7, 2 * h7), Pen1);
+                        LabsUtils.DrawFunction(Win, LabsUtils.F2, new FloatRect(-5, -5, 10, 10), new IntRect(4 * w7, h7, 2 * w7, 2 * h7), Pen2);
+                        LabsUtils.DrawFunction(Win, LabsUtils.F3, new FloatRect(0, -Pi3, Pi6, Pi6), new IntRect(w7, 4 * h7, 2 * w7, 2 * h7), Pen3);
+                        LabsUtils.DrawFunction(Win, LabsUtils.F4, new FloatRect(-10, -2, 20, 18), new IntRect(4 * w7, 4 * h7, 2 * w7, 2 * h7), Pen4);
                         break;
                     }
                 }

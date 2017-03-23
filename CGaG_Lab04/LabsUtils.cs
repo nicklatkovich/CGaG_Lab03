@@ -2,6 +2,7 @@
 using SFML.System;
 using System;
 using System.Collections.Generic;
+using static CGaG_Lab04.Pen;
 
 namespace CGaG_Lab04 {
     static class LabsUtils {
@@ -36,11 +37,6 @@ namespace CGaG_Lab04 {
                 world_view.Height * win.Size.Y / win_view.Height)));
         }
 
-        enum LINE_TYPE {
-            SIMPLE,
-            й
-        }
-
         public static List<VertexArray> FunctionPresenter(Func<float, float> function, FloatRect borders, float x_step, Color cl, float line_width, LineStyle style) {
             bool[ ] lines;
             switch (style) {
@@ -57,7 +53,7 @@ namespace CGaG_Lab04 {
                     true,
                     true,
                     false, false,
-                    false, false
+                    false, false,
                 };
                 break;
             default:
@@ -89,18 +85,13 @@ namespace CGaG_Lab04 {
             return SimpleUtils.GenerateLineWithThickness(vertexList, cl, line_width, lines);
         }
 
-        public enum LineStyle {
-            Solid,
-            Dash_Dot
-        }
-
         //public static void DrawAxisses(RenderWindow win, FloatRect world_coords, IntRect win_coords, Color cl, float thickness)
 
-        public static void DrawFunction(RenderWindow win, Func<float, float> func, FloatRect world_coords, IntRect win_coords, Color cl, float thickness, LineStyle style = LineStyle.Solid) {
+        public static void DrawFunction(RenderWindow win, Func<float, float> func, FloatRect world_coords, IntRect win_coords, Pen pen) {
             FloatRect reversWorldCoords = new FloatRect(world_coords.Left, world_coords.Top + world_coords.Height, world_coords.Width, -world_coords.Height);
             SetProjectionOrtho(win, reversWorldCoords, win_coords);
             float step = world_coords.Width / win_coords.Width;
-            List<VertexArray> vertexesToDraw = FunctionPresenter(func, world_coords, step, cl, step * thickness, style);
+            List<VertexArray> vertexesToDraw = FunctionPresenter(func, world_coords, step, pen.Color, pen.Width * step, pen.Style);
             foreach (var a in vertexesToDraw) {
                 win.Draw(a);
             }
