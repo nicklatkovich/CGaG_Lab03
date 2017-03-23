@@ -65,7 +65,28 @@ namespace CGaG_Lab04 {
             return SimpleUtils.GenerateLineWithThickness(vertexList, cl, line_width, lines);
         }
 
-        //public static void DrawAxisses(RenderWindow win, FloatRect world_coords, IntRect win_coords, Color cl, float thickness)
+        public static void DrawAxisses(RenderWindow win, FloatRect world_coords, IntRect win_coords, Pen pen) {
+            SetProjectionOrtho(win, world_coords, win_coords);
+            float step = world_coords.Width / win_coords.Width;
+            RectangleShape axisRect;
+            axisRect = new RectangleShape(new Vector2f(world_coords.Width * 0.9f + step, pen.Width * step));
+            axisRect.Position = new Vector2f(world_coords.Left, world_coords.Top + world_coords.Height / 2f - pen.Width * step / 2f);
+            axisRect.FillColor = pen.Color;
+            win.Draw(axisRect);
+            axisRect = new RectangleShape(new Vector2f(pen.Width * step, world_coords.Height));
+            axisRect.Position = new Vector2f(world_coords.Left + world_coords.Width / 2f - pen.Width * step / 2f, world_coords.Top);
+            axisRect.FillColor = pen.Color;
+            win.Draw(axisRect);
+            VertexArray AxissesArrow = new VertexArray(PrimitiveType.Triangles);
+            AxissesArrow.Append(new Vertex(new Vector2f(world_coords.Left + world_coords.Width, world_coords.Top + world_coords.Height / 2f), pen.Color));
+            AxissesArrow.Append(new Vertex(new Vector2f(world_coords.Left + world_coords.Width * 0.9f, world_coords.Top + world_coords.Height / 2f - pen.Width * step * 4), pen.Color));
+            AxissesArrow.Append(new Vertex(new Vector2f(world_coords.Left + world_coords.Width * 0.9f, world_coords.Top + world_coords.Height / 2f + pen.Width * step * 4), pen.Color));
+            AxissesArrow.Append(new Vertex(new Vector2f(world_coords.Left + world_coords.Width / 2f, world_coords.Top), pen.Color));
+            AxissesArrow.Append(new Vertex(new Vector2f(world_coords.Left + world_coords.Width / 2f - pen.Width * step * 4, world_coords.Top + world_coords.Height * 0.1f), pen.Color));
+            AxissesArrow.Append(new Vertex(new Vector2f(world_coords.Left + world_coords.Width / 2f + pen.Width * step * 4, world_coords.Top + world_coords.Height * 0.1f), pen.Color));
+            win.Draw(AxissesArrow);
+
+        }
 
         public static void DrawFunction(RenderWindow win, Func<float, float> func, FloatRect world_coords, IntRect win_coords, Pen pen) {
             FloatRect reversWorldCoords = new FloatRect(world_coords.Left, world_coords.Top + world_coords.Height, world_coords.Width, -world_coords.Height);

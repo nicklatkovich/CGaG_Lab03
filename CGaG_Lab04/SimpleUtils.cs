@@ -22,13 +22,17 @@ namespace CGaG_Lab04 {
             });
         }
 
+        public static List<VertexArray> GenerateLineWithThickness(List<Vector2f> point, Color color, float thickness) {
+            return GenerateLineWithThickness(point, color, thickness, Pen.Lines[(int)Pen.LineStyle.Solid]);
+        }
+
         public static List<VertexArray> GenerateLineWithThickness(List<Vector2f> points, Color color, float thickness, bool[ ] lines) {
             List<VertexArray> result = new List<VertexArray>( );
             VertexArray array = new VertexArray(PrimitiveType.TrianglesStrip);
-            for (int i = 1; i < points.Count; i++) {
-                Vector2f v0 = points[(i - 1) % points.Count];
-                Vector2f v1 = points[i % points.Count];
-                Vector2f v2 = points[(i + 1) % points.Count];
+            for (int i = 0; i < points.Count; i++) {
+                Vector2f v0 = (i == 0 ? 2 * points[0] - points[1] : points[i - 1]);
+                Vector2f v1 = points[i];
+                Vector2f v2 = (i == points.Count - 1 ? 2 * points[i] - points[i - 1] : points[i + 1]);
                 Vector2f v01 = (v1 - v0).Normalized( );
                 Vector2f v12 = (v2 - v1).Normalized( );
                 Vector2f d = (v01 + v12).GetNormal( );
