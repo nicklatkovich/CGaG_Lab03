@@ -2,10 +2,11 @@
 
 using SFML.Graphics;
 using SFML.System;
+using System;
 
 namespace CGaG_Lab04 {
     static class SimpleUtils {
-        
+
         public static Matrix SpaceToWindow(FloatRect world_coords, IntRect win_coords) {
             float
                 dxw = win_coords.Width,
@@ -21,9 +22,10 @@ namespace CGaG_Lab04 {
             });
         }
 
-        public static VertexArray GenerateLineWithThickness(List<Vector2f> points, Color color, float thickness) {
-            var array = new VertexArray(PrimitiveType.TrianglesStrip);
-            for (int i = 1; i < points.Count + 2; i++) {
+        public static List<VertexArray> GenerateLineWithThickness(List<Vector2f> points, Color color, float thickness, bool[ ] lines) {
+            List<VertexArray> result = new List<VertexArray>( );
+            VertexArray array = new VertexArray(PrimitiveType.TrianglesStrip);
+            for (int i = 1; i < points.Count; i++) {
                 Vector2f v0 = points[(i - 1) % points.Count];
                 Vector2f v1 = points[i % points.Count];
                 Vector2f v2 = points[(i + 1) % points.Count];
@@ -32,10 +34,20 @@ namespace CGaG_Lab04 {
                 Vector2f d = (v01 + v12).GetNormal( );
                 float dot = d.Dot(v01.GetNormal( ));
                 d *= thickness / 2f / dot; //< TODO: Add flat miter joint in extreme cases
-                array.Append(new Vertex(v1 + d, color));
-                array.Append(new Vertex(v1 - d, color));
+                if (lines[i % lines.Length]) {
+                    array.Append(new Vertex(v1 + d, color));
+                    array.Append(new Vertex(v1 - d, color));
+                } else {
+                    if (array.VertexCount > 0) {
+                        result.Add(array);
+                        array = new VertexArray(PrimitiveType.TrianglesStrip);
+                    }
+                }
             }
-            return array;
+            if (array.VertexCount > 0) {
+                result.Add(array);
+            }
+            return result;
         }
     }
 }

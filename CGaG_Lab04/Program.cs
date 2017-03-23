@@ -6,24 +6,32 @@ using System.Threading.Tasks;
 
 using SFML.Graphics;
 using SFML.System;
+using SFML.Window;
 
 namespace CGaG_Lab04 {
     class Program {
 
+        public const float Pi3 = 3f * (float)Math.PI;
+        public const float Pi6 = 6f * (float)Math.PI;
+
         static RenderWindow Win;
-        static Matrix SpaceToWindow;
         static Random rand = new Random( );
+        static uint State = 0;
+        static Keyboard.Key[ ] KeysForState = {
+            Keyboard.Key.Num0,
+            Keyboard.Key.Num1,
+            Keyboard.Key.Num2,
+            Keyboard.Key.Num3,
+            Keyboard.Key.Num4,
+            Keyboard.Key.Num5,
+        };
 
         static void Main(string[ ] args) {
 
-            Win = new RenderWindow(new SFML.Window.VideoMode(1024, 720), "CGaG Lab04");
+            Win = new RenderWindow(new SFML.Window.VideoMode(640, 640), "CGaG Lab04");
             Win.Position = new Vector2i(0, 0);
             Win.SetVerticalSyncEnabled(true);
             Win.Closed += OnClosed;
-
-            SpaceToWindow = SimpleUtils.SpaceToWindow(new FloatRect(50, 50, 10, 10), new IntRect(0, 0, (int)Win.Size.X, (int)Win.Size.Y));
-
-            SetProjectionOrtho(Win, new FloatRect(15, 15, 40, 40), new IntRect(120, 120, 120, 120));
 
             while (Win.IsOpen) {
                 Win.DispatchEvents( );
@@ -31,9 +39,38 @@ namespace CGaG_Lab04 {
 
                 // TODO: Draw
                 {
-                    CircleShape circle = new CircleShape(20, 24);
-                    circle.Position = new Vector2f(35, 35);
-                    Win.Draw(circle);
+
+                    for (uint i = 0; i < KeysForState.Length; i++) {
+                        if (Keyboard.IsKeyPressed(KeysForState[i])) {
+                            State = i;
+                            break;
+                        }
+                    }
+
+                    switch (State) {
+                    case 0:
+                        break;
+                    case 1:
+                        LabsUtils.DrawFunction(Win, LabsUtils.F1, new FloatRect(-Pi3, -Pi3, Pi6, Pi6), new IntRect(0, 0, (int)Win.Size.X, (int)Win.Size.Y), Color.Red, 1);
+                        break;
+                    case 2:
+                        LabsUtils.DrawFunction(Win, LabsUtils.F2, new FloatRect(-5, -5, 10, 10), new IntRect(0, 0, (int)Win.Size.X, (int)Win.Size.Y), Color.Green, 1);
+                        break;
+                    case 3:
+                        LabsUtils.DrawFunction(Win, LabsUtils.F3, new FloatRect(0, -Pi3, Pi6, Pi6), new IntRect(0, 0, (int)Win.Size.X, (int)Win.Size.Y), Color.Red, 3, LabsUtils.LineStyle.Dash_Dot);
+                        break;
+                    case 4:
+                        LabsUtils.DrawFunction(Win, LabsUtils.F4, new FloatRect(-10, -2, 20, 18), new IntRect(0, 0, (int)Win.Size.X, (int)Win.Size.Y), Color.Red, 2);
+                        break;
+                    case 5:
+                        int w7 = (int)Win.Size.X / 7;
+                        int h7 = (int)Win.Size.Y / 7;
+                        LabsUtils.DrawFunction(Win, LabsUtils.F1, new FloatRect(-Pi3, -Pi3, Pi6, Pi6), new IntRect(w7, h7, 2 * w7, 2 * h7), Color.Red, 1);
+                        LabsUtils.DrawFunction(Win, LabsUtils.F2, new FloatRect(-5, -5, 10, 10), new IntRect(4 * w7, h7, 2 * w7, 2 * h7), Color.Green, 1);
+                        LabsUtils.DrawFunction(Win, LabsUtils.F3, new FloatRect(0, -Pi3, Pi6, Pi6), new IntRect(w7, 4 * h7, 2 * w7, 2 * h7), Color.Red, 3, LabsUtils.LineStyle.Dash_Dot);
+                        LabsUtils.DrawFunction(Win, LabsUtils.F4, new FloatRect(-10, -2, 20, 18), new IntRect(4 * w7, 4 * h7, 2 * w7, 2 * h7), Color.Red, 2);
+                        break;
+                    }
                 }
 
                 Win.Display( );
@@ -44,18 +81,5 @@ namespace CGaG_Lab04 {
             Win.Close( );
         }
 
-        static void SetProjectionOrtho(RenderWindow win, FloatRect world_view, IntRect win_view) {
-            Vector2f scale = new Vector2f(
-                win_view.Width / world_view.Width,
-                win_view.Height / world_view.Height);
-            Vector2f position = new Vector2f(
-                world_view.Left - win_view.Left / scale.X,
-                world_view.Top - win_view.Top / scale.Y);
-            win.SetView(new View(new Vector2f(
-                position.X + world_view.Width * win.Size.X / win_view.Width / 2,
-                position.Y + world_view.Height * win.Size.Y / win_view.Height / 2), new Vector2f(
-                world_view.Width * win.Size.X / win_view.Width,
-                world_view.Height * win.Size.Y / win_view.Height)));
-        }
     }
 }
