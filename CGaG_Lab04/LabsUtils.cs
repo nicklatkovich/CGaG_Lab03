@@ -38,28 +38,8 @@ namespace CGaG_Lab04 {
         }
 
         public static List<VertexArray> FunctionPresenter(Func<float, float> function, FloatRect borders, float x_step, Color cl, float line_width, LineStyle style) {
-            bool[ ] lines;
-            switch (style) {
-            case LineStyle.Solid:
-                lines = new bool[1];
-                lines[0] = true;
-                break;
-            case LineStyle.Dash_Dot:
-                lines = new bool[16] {
-                    true, true, true,
-                    true, true, true,
-                    false, false,
-                    false, false,
-                    true,
-                    true,
-                    false, false,
-                    false, false,
-                };
-                break;
-            default:
-                throw new NotImplementedException( );
-            }
 
+            bool[ ] lines = Lines[(int)style];
             List<Vector2f> vertexList = new List<Vector2f>( );
             //VertexArray result = new VertexArray(PrimitiveType.Lines);
             float start = borders.Left;

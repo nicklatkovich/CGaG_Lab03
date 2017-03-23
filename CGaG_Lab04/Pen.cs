@@ -9,11 +9,28 @@ namespace CGaG_Lab04 {
     class Pen {
 
         public enum LineStyle {
-            Solid,
-            Dash_Dot
+            Solid = 0,
+            Dash_Dot = 1
         }
 
         public LineStyle Style;
+
+        public static readonly bool[ ][ ] Lines;
+        static Pen( ) {
+            Lines = new bool[ ][ ] {
+                new bool[] { true },
+                new bool[] {
+                    true, true, true,
+                    true, true, true,
+                    false, false,
+                    false, false,
+                    true,
+                    true,
+                    false, false,
+                    false, false,
+                }
+            };
+        }
 
         private float _width;
         public float Width {
